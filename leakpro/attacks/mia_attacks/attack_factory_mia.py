@@ -14,7 +14,9 @@ from leakpro.attacks.utils.shadow_model_handler import ShadowModelHandler
 from leakpro.input_handler.mia_handler import MIAHandler
 from leakpro.utils.logger import logger
 
-from leakpro.attacks.mia_attacks.ramia import AttackRaMIA
+from leakpro.attacks.mia_attacks.ramia.group_testing.ramia_gt import AttackRaMIA_GT
+from leakpro.attacks.mia_attacks.ramia.baseline.ramia_bl import AttackRaMIA_BL
+from leakpro.attacks.mia_attacks.ramia.baseline.ramia_bl2 import AttackRaMIA_BL2
 
 
 class AttackFactoryMIA:
@@ -28,7 +30,9 @@ class AttackFactoryMIA:
         "lira": AttackLiRA,
         "HSJ" : AttackHopSkipJump,
         "yoqo": AttackYOQO,
-        "ramia": AttackRaMIA
+        "ramia_bl": AttackRaMIA_BL,
+        "ramia_gt": AttackRaMIA_GT,
+        "ramia_bl2": AttackRaMIA_BL2,
     }
 
     # Shared variables for all attacks
