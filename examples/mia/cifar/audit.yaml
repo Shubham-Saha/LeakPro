@@ -3,30 +3,77 @@ audit:  # Configurations for auditing
   attack_list:
     # rmia:
     #   online: False
-    #   num_shadow_models: 5
+    #   num_shadow_models: 4
     #   gamma: 1
-    # # population:
+    # population:
     # lira:
     #   online: False
     # loss_traj:
     # HSJ:
     # yoqo:
-    lira:
-      training_data_fraction: 0.5  # Fraction of the auxilary dataset to use for this attack (in each shadow model training)
-      num_shadow_models: 8 #Number of shadow models to train
-      online: False # perform online
-      fixed_variance: True
-      boosting: False
-    ramia:
-      training_data_fraction: 0.5  # Fraction of auxiliary dataset for shadow models
-      num_shadow_models: 8 # Number of shadow models (as recommended in paper)
+    # lira:
+    #   training_data_fraction: 0.6  # Fraction of the auxilary dataset to use for this attack (in each shadow model training)
+    #   num_shadow_models: 2 #Number of shadow models to train
+    #   online: False # perform online
+    #   fixed_variance: false
+    #   boosting: false
+    ramia_bl:  # Add this new section
+    # RMIA-specific parameters (existing RMIA config)
+      gamma: 1  #  RMIA gamma value
+      temperature: 2.0  # Softmax temperature
+      offline_a: 0.5  # Parameter for estimating marginal p(x) (0.33 is default)
+      attack_data_fraction: 0.2  # Fraction of data for auxiliary calculations (0.1 is default)
+      
+      training_data_fraction: 0.3  # Fraction of auxiliary dataset for shadow models
+      num_shadow_models: 2  # Number of shadow models
       online: False  # We're doing offline attack
-      num_transforms: 10  # Number of transformations to apply
-      fixed_variance: True
-      boosting: False
-      range_num_audit_samples: 500
-      #dataset_type: "image"
-      #transform_type: "cifar"
+      eval_batch_size: 32  # Batch size for evaluation
+
+      num_transforms: 5 # Number of transformations to apply
+      range_num_audit_samples: 1200  # Number of audit samples for range testing (1000 is default)
+      # dataset_type: "image"  # Type of dataset
+      # transform_type: "cifar"  # Type of transformations
+      
+      # Trimming parameters for aggregation
+      trim_lower_percentile: 40  # Default starting percentile to trim (60)
+      # trim_auto_tune: false  # Enable automatic tuning of trimming parameter
+
+    ramia_gt:
+      training_data_fraction: 0.3  # Fraction of auxiliary dataset for shadow models
+      num_shadow_models: 8 # Number of shadow models
+      online: False  # We're doing offline attack
+      eval_batch_size: 32  # Batch size for evaluation
+      num_transforms: 50 # Number of transformations to apply
+      fixed_variance: false
+      boosting: false
+      # pca_components: 70 # PCA components to keep (default is 50)
+      # decoder: "gt"  # Decoder type for the attack
+      gamma: 1  #  RMIA gamma value
+      temperature: 2.0  # Softmax temperature
+      offline_a: 0.5  # Parameter for estimating marginal p(x) (0.33 is default)
+      attack_data_fraction: 0.2  # Fraction of data for auxiliary calculations (0.1 is default)
+      range_num_audit_samples: 1200  # Number of audit samples for range testing (1000 is default)
+
+    ramia_bl2:  # Add this new section
+    # RMIA-specific parameters (match your existing RMIA config)
+      gamma: 1  # RMIA gamma value
+      temperature: 2.0  # Softmax temperature
+      offline_a: 0.5  # Parameter for estimating marginal p(x) (0.33 is default)
+      attack_data_fraction: 0.2  # Fraction of data for auxiliary calculations (0.1 is default)
+      
+      training_data_fraction: 0.3  # Fraction of auxiliary dataset for shadow models
+      num_shadow_models: 8  # Number of shadow models
+      online: False  # We're doing offline attack
+      eval_batch_size: 32  # Batch size for evaluation
+
+      num_transforms: 12 # Number of transformations to apply
+      range_num_audit_samples: 1200  # Number of audit samples for range testing (1000 is default)
+      # dataset_type: "image"  # Type of dataset
+      # transform_type: "cifar"  # Type of transformations
+      
+      # Trimming parameters for aggregation
+      trim_lower_percentile: 40  # Default starting percentile to trim (60 is default)
+      # trim_auto_tune: false  # Enable automatic tuning of trimming parameter
 
   output_dir: "./leakpro_output"
   attack_type: "mia" #mia, gia
@@ -39,6 +86,7 @@ target:
   # Data paths
   target_folder: "./target"
   data_path: "./data/cifar10.pkl"
+  # raw_data_dir: "./data/cifar-10-batches-py"
 
 shadow_model:
 
