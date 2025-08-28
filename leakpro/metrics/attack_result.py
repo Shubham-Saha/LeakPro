@@ -408,11 +408,14 @@ class MIAResult:
         # Set plot parameters
         plt.yscale("log")
         plt.xscale("log")
-        plt.xlim(left=1e-5)
-        plt.ylim(bottom=1e-5)
+        plt.xlim(left=1/500)
+        plt.ylim(bottom=1/500)
+        # plt.xlim(left=1e-5)
+        # plt.ylim(bottom=1e-5)
         plt.tight_layout()
         plt.grid()
-        plt.legend(bbox_to_anchor =(0.5,-0.27), loc="lower center")
+        # plt.legend(bbox_to_anchor =(0.5,-0.27), loc="lower center")
+        plt.legend(loc="upper left")
 
         plt.xlabel("False positive rate (FPR)")
         plt.ylabel("True positive rate (TPR)")
@@ -797,5 +800,3 @@ def reduce_to_unique_labels(results: list) -> list:
             result.append(f"{name}")
 
     return result
-
-
